@@ -86,7 +86,7 @@ public class Exercicio2 extends JFrame {
 					Pessoa p = new Pessoa();
 					p.setPrimeiroNome(nome);
 					p.setSobrenome(sobrenome);
-					String msg = "Cadastrado com sucesso!!/n"+"Você cadastrou:"+p.getPrimeiroNome()+" "+p.getSobrenome();
+					String msg = "Cadastrado com sucesso!!\n"+"Você cadastrou:"+p.getPrimeiroNome()+" "+p.getSobrenome();
 					JOptionPane.showMessageDialog(null, msg);
 				}
 				

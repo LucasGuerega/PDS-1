@@ -16,6 +16,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 public class Exercicio3 extends JFrame {
 
@@ -87,10 +88,13 @@ public class Exercicio3 extends JFrame {
 				float base = Float.valueOf(baseDigi);
 				float altura = Float.valueOf(alturaDigi);
 				Retangulo calc = new Retangulo();
+				DecimalFormat decimalFormat = new DecimalFormat("0.00");
 	            float perimetroCalc = calc.calcPerimetro(base, altura);
 	            float areaCalc = calc.calcArea(base, altura);
-				JOptionPane.showMessageDialog(null, "Perímetro do retângulo: " + perimetroCalc + 
-													"\nÁrea do retângulo: " + areaCalc);
+	            String perimetroCalcFormat = decimalFormat.format(perimetroCalc);
+	            String areaCalcFormat = decimalFormat.format(areaCalc);
+				JOptionPane.showMessageDialog(null, "Perímetro do retângulo: " + perimetroCalcFormat + 
+													"\nÁrea do retângulo: " + areaCalcFormat);
 			}
 		});
 		btn_calc.setFont(new Font("Times New Roman", Font.BOLD, 30));

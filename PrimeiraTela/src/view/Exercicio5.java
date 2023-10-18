@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 public class Exercicio5 extends JFrame {
 
@@ -89,10 +90,13 @@ public class Exercicio5 extends JFrame {
 					float pesoPt = Float.valueOf(pesoPratoDigi);
 					float precoKg = Float.valueOf(precoKiloDigi);
 					CalcValorPrato calc = new CalcValorPrato();
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		            float valorPrato = calc.calcValorPrato(precoKg, pesoPt);
+		            String valorPratoFormat = decimalFormat.format(valorPrato);
+
 					JOptionPane.showMessageDialog(null, 
 							"Valor do seu prato: R$" 
-									+ valorPrato + "\nPague se não te enxotamos sem a comida!" );
+									+ valorPratoFormat + "\nPague se não te enxotamos sem a comida!" );
 				}
 			}
 		});

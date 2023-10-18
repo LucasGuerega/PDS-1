@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 public class Exercicio4 extends JFrame {
 
@@ -87,10 +88,12 @@ public class Exercicio4 extends JFrame {
 					float preco = Float.valueOf(precLitDigi);
 					float valorFim = Float.valueOf(valFinDigi);
 					CalcQuantLitros calc = new CalcQuantLitros();
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		            float quantLitros = calc.calcQuantLitros(preco, valorFim);
+		            String quantLitrosFormatted = decimalFormat.format(quantLitros);
 					JOptionPane.showMessageDialog(null, 
 							"Quantidade de litros que se colocará no tanque: " 
-									+ quantLitros + "L" );
+									+ quantLitrosFormatted + "L" );
 				}
 			}
 		});
