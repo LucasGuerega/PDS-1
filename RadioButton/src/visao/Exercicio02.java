@@ -1,29 +1,24 @@
 package visao;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import modelo.Calcular;
-import modelo.Retangulo;
-
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
-import net.miginfocom.swing.MigLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.GridLayout;
+import javax.swing.border.EmptyBorder;
+
+import modelo.Calcular;
 
 public class Exercicio02 extends JFrame {
 
@@ -132,7 +127,6 @@ public class Exercicio02 extends JFrame {
 		contentPane.add(rdbnt_divi);
 		buttonGroup.add(rdbnt_divi);
 
-
 		label_5 = new JLabel("");
 		contentPane.add(label_5);
 
@@ -171,8 +165,10 @@ public class Exercicio02 extends JFrame {
 					lblResultado.setText("Resultado: " + txt_resultado);
 				}
 				if (rdbnt_divi.isSelected()) {
-					int divi = (int) calc.divi(num1, num2);
-					String txt_resultado = String.valueOf(divi);
+
+					String divi = calc.divi(num1, num2);
+					String txt_resultado = divi;
+
 					lblResultado.setText("Resultado: " + txt_resultado);
 				}
 			}
