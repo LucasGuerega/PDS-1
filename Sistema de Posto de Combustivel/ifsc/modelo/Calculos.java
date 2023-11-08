@@ -6,11 +6,11 @@ import javax.swing.JOptionPane;
 public class Calculos {
 	public Float calcAbast(float digiQntL, String String[] ) {
 		
-		if (String[]= 1)
+		/*if ()
 			{
 					JOptionPane.showMessageDialog(null, "Hello Wolrd");
 			}
-		
+		*/
 		return digiQntL;
 	}
 
