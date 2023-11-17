@@ -46,6 +46,17 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 	private JTextField txt_qntDias;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	ArrayList<Combustiveis> listaCombustiveis = new ArrayList<Combustiveis>();
+	Calculos calc = new Calculos();
+	float digiDisel = (float) 0.00;
+	float digiGCom = (float) 0.00;
+	float digiGAdd = (float) 0.00;
+	float digiEtanol = (float) 0.00;
+	float digiFrasco500ml = (float) 0.00;
+	float digiFrasco1L = (float) 0.00;
+	float digiQntL = (float) 0.00;
+	float digiQntFrasco1L = (float) 0.00;
+	float digiQntFrasco500mL = (float) 0.00;
+	int digiDias = 0;
 
 	/**
 	 * Launch the application.
@@ -196,7 +207,7 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 		panel_4.add(lblNewLabel_4, "cell 1 0,alignx trailing");
 
 		JComboBox<Combustiveis> comboBoxCombustiveis = new JComboBox<Combustiveis>();
-		for(int i=0; i< listaCombustiveis.size(); i++) {
+		for (int i = 0; i < listaCombustiveis.size(); i++) {
 			comboBoxCombustiveis.addItem(listaCombustiveis.get(i));
 		}
 		panel_4.add(comboBoxCombustiveis, "cell 2 0,growx");
@@ -211,6 +222,7 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 		panel_4.add(txt_qntL, "cell 2 1,alignx center");
 		txt_qntL.setColumns(10);
 
+
 		JLabel lblNewLabel_4_2 = new JLabel("Total Combustivel:");
 		panel_4.add(lblNewLabel_4_2, "cell 1 2,alignx center");
 
@@ -221,74 +233,135 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 		panel_5.setBorder(
 				new TitledBorder(null, "Formas de Pagamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panel_5, "cell 2 2 2 1,grow");
-		panel_5.setLayout(null);
+		panel_5.setLayout(new GridLayout(0, 3, 0, 0));
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("\u00C0 Vista");
-		buttonGroup.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setBounds(6, 23, 109, 23);
-		panel_5.add(rdbtnNewRadioButton);
-
-		JRadioButton rdbtnPrazo = new JRadioButton("\u00C0 Prazo");
-		buttonGroup.add(rdbtnPrazo);
-		rdbtnPrazo.setBounds(6, 65, 109, 23);
-		panel_5.add(rdbtnPrazo);
-
-		txt_qntDias = new JTextField();
-		txt_qntDias.setBounds(190, 43, 67, 20);
-		panel_5.add(txt_qntDias);
-		txt_qntDias.setColumns(10);
+		JRadioButton rdbtn_Vista = new JRadioButton("\u00C0 Vista");
+		buttonGroup.add(rdbtn_Vista);
+		panel_5.add(rdbtn_Vista);
+				
+				JLabel label = new JLabel("");
+				panel_5.add(label);
+		
+				txt_qntDias = new JTextField();
+				panel_5.add(txt_qntDias);
+				txt_qntDias.setColumns(10);
+		
+		JLabel label_1 = new JLabel("");
+		panel_5.add(label_1);
+		
+		JLabel label_2 = new JLabel("");
+		panel_5.add(label_2);
 
 		JLabel lblNewLabel_5 = new JLabel("Dias:");
-		lblNewLabel_5.setBounds(161, 46, 46, 14);
 		panel_5.add(lblNewLabel_5);
+		
+				JRadioButton rdbtn_Prazo = new JRadioButton("\u00C0 Prazo");
+				buttonGroup.add(rdbtn_Prazo);
+				panel_5.add(rdbtn_Prazo);
+		
+		JLabel label_3 = new JLabel("");
+		panel_5.add(label_3);
+		
+		JLabel label_4 = new JLabel("");
+		panel_5.add(label_4);
 
 		JLabel lblNewLabel_4_2_1 = new JLabel("Total a pagar:");
-		lblNewLabel_4_2_1.setBounds(52, 95, 89, 14);
 		panel_5.add(lblNewLabel_4_2_1);
 
 		JLabel lbl_tcomb_1 = new JLabel("-");
-		lbl_tcomb_1.setBounds(151, 95, 20, 14);
+		lbl_tcomb_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_5.add(lbl_tcomb_1);
+		
+		JLabel label_5 = new JLabel("");
+		panel_5.add(label_5);
 
 		JButton btn_calc = new JButton("Calcular");
 		btn_calc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!rdbtnNewRadioButton.isSelected() && !rdbtnPrazo.isSelected()) {
+				if (!rdbtn_Vista.isSelected() && !rdbtn_Prazo.isSelected()) {
 					JOptionPane.showMessageDialog(null, "Escolha pelo menos uma opçaõ de pagamento!");
 				}
-				float digiDisel = 0;
-				float digiGCom = 0;
-				float digiGAdd = 0;
-				float digiEtanol = 0;
-				float digiFrasco500ml = 0;
-				float digiQntL = 0;
+				
+
 				try {
 					digiQntL = Float.parseFloat(txt_qntL.getText());
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Quantidade de litros deve ser um numero(float)");
 					return;
-				} /*
-					 * try { digiDisel = Float.parseFloat(txt_disel.getText()); } catch (Exception
-					 * e2) { JOptionPane.showMessageDialog(null,
-					 * "Valor do diesel deve ser um numero(float)"); return; } try { digiGCom =
-					 * Float.parseFloat(txt_gCom.getText()); } catch (Exception e2) {
-					 * JOptionPane.showMessageDialog(null,
-					 * "Valor da gasolina comum deve ser um numero(float)"); return; } try {
-					 * digiGAdd = Float.parseFloat(txt_gAdd.getText()); } catch (Exception e2) {
-					 * JOptionPane.showMessageDialog(null,
-					 * "Valor da gasolina aditivada deve ser um numero(float)"); return; } try {
-					 * digiEtanol = Float.parseFloat(txt_etn.getText()); } catch (Exception e2) {
-					 * JOptionPane.showMessageDialog(null,
-					 * "Valor do etanol deve ser um numero(float)"); return; }
-					 * 
-					 * JOptionPane.showMessageDialog(null, "Valor do diesel" + digiDisel +
-					 * "\nValor da gasolina comum" + digiGCom + "\nValor da gasolina aditivada" +
-					 * digiGAdd + "\nValor do etanol" + digiEtanol);
-					 */
-				Calculos calc = new Calculos();
-				/* float test = calc.calcAbast(digiQntL,comboBoxString); */
+				}
+				try {
+					digiDisel = Float.parseFloat(txt_disel.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor do diesel deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiGCom = Float.parseFloat(txt_gCom.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor da gasolina comum deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiGAdd = Float.parseFloat(txt_gAdd.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor da gasolina aditivada deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiEtanol = Float.parseFloat(txt_etn.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor do etanol deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiFrasco500ml = Float.parseFloat(txt_500ml.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor de 500mL de oleo deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiFrasco1L = Float.parseFloat(txt_1l.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Valor de 1L de oleo deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiQntFrasco1L = Float.parseFloat(txt_qnt1l.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Quantidade de litros deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiQntFrasco500mL = Float.parseFloat(txt_qnt500ml.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Quantidade de litros deve ser um numero(float)");
+					return;
+				}
+				try {
+					digiDias =  Integer.parseInt(txt_qntDias.getText());
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Quantidade de dias deve ser um numero(inteiro)");
+					return;
+				}
+				
 
+				Combustiveis combusSelecinada = (Combustiveis) comboBoxCombustiveis.getSelectedItem();
+				float totalComb = calc.totPagComb(digiQntL, combusSelecinada, digiDisel, digiGCom, digiGAdd,
+						digiEtanol);
+				String txt_tcomb = String.valueOf(totalComb);
+				lbl_tcomb.setText("R$" + txt_tcomb);
+
+				Float[] valoresOleo = calc.totPagOleo(digiFrasco1L, digiFrasco500ml, digiQntFrasco1L,
+						digiQntFrasco500mL);
+				lbl_f500ml.setText(String.valueOf("R$" + valoresOleo[0]));
+				lbl_f1l.setText(String.valueOf("R$" + valoresOleo[1]));
+				lbl_toleo.setText(String.valueOf("R$" + valoresOleo[2]));
+
+				float totalPagar = calc.totPag(totalComb, valoresOleo[2], rdbtn_Vista, rdbtn_Prazo, digiDias);
+				String txt_totalPagar = String.valueOf(totalPagar);
+				lbl_tcomb_1.setText("R$" + txt_totalPagar);
 			}
+
 		});
 		panel.add(btn_calc, "cell 0 3");
 
@@ -306,6 +379,10 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 				txt_qnt1l.setText("");
 				txt_qntL.setText("");
 				txt_qntDias.setText("");
+				lbl_tcomb.setText(" ");
+				lbl_f500ml.setText(" ");
+				lbl_f1l.setText(" ");
+				lbl_toleo.setText(" ");
 
 			}
 		});
@@ -337,6 +414,15 @@ public class TelaSistemaDePostoDeCombustivel extends JFrame {
 		c2.setCodigo(2);
 		c2.setNome("Gas. Comum");
 		listaCombustiveis.add(c2);
+		Combustiveis c3 = new Combustiveis();
+		c3.setCodigo(2);
+		c3.setNome("Gas. Aditivada");
+		listaCombustiveis.add(c3);
+
+		Combustiveis c4 = new Combustiveis();
+		c4.setCodigo(2);
+		c4.setNome("Etanol");
+		listaCombustiveis.add(c4);
 
 	}
 }
