@@ -12,7 +12,10 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Pessoa;
+<<<<<<< HEAD
 import modelo.PessoaJTableModel;
+=======
+>>>>>>> 6de503e2aa70db5d736baa119d3ba06cf6cef33e
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
