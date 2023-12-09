@@ -33,8 +33,12 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
 
 public class TelaCadastroEventos extends JFrame {
 	private JPanel contentPane;
@@ -42,8 +46,6 @@ public class TelaCadastroEventos extends JFrame {
 	private JTextField txt_Localizacao;
 	private CategoriaEvento categoriaSelecionada;
 	ArrayList<CategoriaEvento> listaCategorias = new ArrayList<CategoriaEvento>();
-
-	private JTextField txt_Desc;
 	private JTextField txt_Data;
 	private JTextField txt_Hora;
 	private JTextField txt_PrecIngresso;
@@ -71,17 +73,17 @@ public class TelaCadastroEventos extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[461.00,grow][][][][][][grow][][][][][][][][][]",
-				"[grow][][][][][][][grow][][][][][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[461.00,grow][][grow][][grow][][grow][][][][][][][][][]", "[grow][][][][grow][][][grow][][][][][][][][][][][]"));
 
-		JPanel panel = new JPanel();
-		contentPane.add(panel, "cell 0 0 1 19,grow");
-		panel.setLayout(null);
+		JPanel LadoJanela = new JPanel();
+		contentPane.add(LadoJanela, "cell 0 0 1 19,grow");
+		LadoJanela.setLayout(null);
 
 		JLabel lblNewLabel_3 = new JLabel("l");
 		lblNewLabel_3.setBounds(-115, 0, 612, 461);
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\Aluno\\Documents\\PDS-1\\CadastroDeEventos\\src\\LadoA2.png"));
-		panel.add(lblNewLabel_3);
+		lblNewLabel_3.setIcon(
+				new ImageIcon("C:\\Users\\lugui\\OneDrive\\Documentos\\PDS-1\\CadastroDeEventos\\src\\LadoA2.png"));
+		LadoJanela.add(lblNewLabel_3);
 
 		JLabel lblNewLabel = new JLabel("Cadastrar Evento");
 		lblNewLabel.setForeground(new Color(237, 114, 38));
@@ -95,19 +97,19 @@ public class TelaCadastroEventos extends JFrame {
 		contentPane.add(txt_NomeEvento, "cell 4 2 11 1,growx");
 		txt_NomeEvento.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Localização");
+		JLabel lblNewLabel_2 = new JLabel("Localizacão");
 		contentPane.add(lblNewLabel_2, "cell 2 3");
 
 		txt_Localizacao = new JTextField();
 		contentPane.add(txt_Localizacao, "cell 4 3 11 1,growx");
 		txt_Localizacao.setColumns(10);
 
-		JLabel lblNewLabel_2_1 = new JLabel("Descrição");
+		JLabel lblNewLabel_2_1 = new JLabel("Descricão");
 		contentPane.add(lblNewLabel_2_1, "cell 2 4");
 
-		txt_Desc = new JTextField();
-		txt_Desc.setColumns(10);
-		contentPane.add(txt_Desc, "cell 4 4 11 1,growx");
+		JTextArea txt_desc = new JTextArea();
+		txt_desc.setToolTipText("Descricão de seu evento");
+		contentPane.add(txt_desc, "cell 4 4 11 1,grow");
 
 		JLabel lblNewLabel_2_1_1 = new JLabel("Data");
 		contentPane.add(lblNewLabel_2_1_1, "cell 2 5");
@@ -118,11 +120,11 @@ public class TelaCadastroEventos extends JFrame {
 		JLabel lblNewLabel_2_1_2 = new JLabel("Hora");
 		contentPane.add(lblNewLabel_2_1_2, "cell 2 6");
 
-		txt_Hora = new JFormattedTextField(setMascara("##:##:##"));
+		txt_Hora = new JFormattedTextField(setMascara("##:##"));
 		txt_Hora.setColumns(10);
 		contentPane.add(txt_Hora, "cell 4 6 11 1,growx");
 
-		JLabel lblNewLabel_2_1_3 = new JLabel("Preço do ingresso");
+		JLabel lblNewLabel_2_1_3 = new JLabel("Preco do ingresso");
 		contentPane.add(lblNewLabel_2_1_3, "cell 2 7");
 
 		txt_PrecIngresso = new JFormattedTextField(setMascara("#####.##"));
@@ -140,10 +142,10 @@ public class TelaCadastroEventos extends JFrame {
 
 		CategoriaEvento combusSelecinada = (CategoriaEvento) comboBoxCategorias.getSelectedItem();
 
-		JLabel lblNewLabel_2_1_5 = new JLabel("Avaliação média");
+		JLabel lblNewLabel_2_1_5 = new JLabel("Avaliacão média");
 		contentPane.add(lblNewLabel_2_1_5, "cell 2 9");
 
-		txt_AvaliaMedia = new JTextField();
+		txt_AvaliaMedia = new JFormattedTextField(setMascara("#.#"));
 		txt_AvaliaMedia.setColumns(10);
 		contentPane.add(txt_AvaliaMedia, "cell 4 9 11 1,growx");
 
@@ -168,7 +170,7 @@ public class TelaCadastroEventos extends JFrame {
 		txt_Telefone.setColumns(10);
 		contentPane.add(txt_Telefone, "cell 4 12 11 1,growx");
 
-		JLabel lblNewLabel_2_1_7_2 = new JLabel("Endereço");
+		JLabel lblNewLabel_2_1_7_2 = new JLabel("Endereco");
 		contentPane.add(lblNewLabel_2_1_7_2, "cell 2 13");
 
 		txt_Endereco = new JTextField();
@@ -197,6 +199,7 @@ public class TelaCadastroEventos extends JFrame {
 		contentPane.add(txt_CEP, "cell 4 16 11 1,growx");
 
 		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.setForeground(new Color(237, 114, 38));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -208,172 +211,200 @@ public class TelaCadastroEventos extends JFrame {
 
 			}
 		});
+		
+				JButton btnNewButton_2 = new JButton("Salvar");
+				btnNewButton_2.setForeground(new Color(237, 114, 38));
+				btnNewButton_2.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent x) {
 
-		JButton btnNewButton_2 = new JButton("Salvar");
-		btnNewButton_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent x) {
+						String nomeEvento = txt_NomeEvento.getText();
+						if (nomeEvento.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de nome é obrigatório!");
+							return;
+						}
 
-				String nomeEvento = txt_NomeEvento.getText();
-				if (nomeEvento.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de nome é obrigatório!");
-					return;
-				}
+						String localizacão = txt_Localizacao.getText();
+						if (localizacão.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de localizacão é obrigatório!");
+							return;
+						}
 
-				String localização = txt_Localizacao.getText();
-				if (localização.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de localização é obrigatório!");
-					return;
-				}
+						String descricao = txt_desc.getText();
+						if (descricao.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de descricão é obrigatório!");
+							return;
+						}
 
-				String descricao = txt_Desc.getText();
-				if (descricao.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de descrição é obrigatório!");
-					return;
-				}
+						String data = txt_Data.getText();
+						String DataForm;
 
-				String data = txt_Data.getText();
-				String DataForm;
+						if (data.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de data é obrigatório!");
+							return;
+						}
 
-				if (data.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de data é obrigatório!");
-					return;
-				}
-				try {
-					// LocalDate dataD = LocalDate.now();
-					DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d/MM/uuuu");
-					DataForm = data.formatted(formatters);
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null,
-							"Formato de data inválido. Use o formato dd(1-31)/MM(1-12)/yyyy(0>infinito).");
-					return;
-				}
-				/*
-				 * LocalDate date = LocalDate.now(); DateTimeFormatter formatters =
-				 * DateTimeFormatter.ofPattern("d/MM/uuuu"); String text =
-				 * date.format(formatters); LocalDate parsedDate = LocalDate.parse(text,
-				 * formatters);
-				 * 
-				 * System.out.println("date: " + date); // date: 2016-09-25
-				 * System.out.println("Text format " + text); // Text format 25/09/2016
-				 * System.out.println("parsedDate: " + parsedDate); // parsedDate: 2016-09-25
-				 */
+						try {
+							DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d/MM/uuuu");
+							LocalDate dataD = LocalDate.parse(data, formatters);
 
-				String tempo = txt_Hora.getText();
-				Time tempoT = null;
+							if (dataD.getDayOfMonth() < 1 || dataD.getDayOfMonth() > 31 || dataD.getMonthValue() < 1
+									|| dataD.getMonthValue() > 12 || dataD.getYear() < 2024) {
+								JOptionPane.showMessageDialog(null,
+										"Data inválida! Verifique o dia (1-31), mês (1-12) e ano (a partir de 2024).");
+								return;
+							}
 
-				// Verifica se o campo de tempo é obrigatório
-				if (tempo.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Campo de tempo é obrigatório!");
-					return;
-				}
+							DataForm = dataD.format(formatters);
+						} catch (DateTimeParseException e1) {
+							JOptionPane.showMessageDialog(null, "Formato de data inválido. Use o formato dd/MM/yyyy.");
+							return;
+						}
 
-				try {
-					// Tenta converter a string de tempo para um objeto Time
-					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-					java.util.Date date = sdf.parse(tempo);
-					tempoT = new Time(date.getTime());
-				} catch (ParseException e1) {
-					// Se houver um erro de formato, trate a exceção
-					JOptionPane.showMessageDialog(null, "Formato de tempo inválido. Use o formato HH:mm:ss.");
-					return;
-				}
+						String tempo = txt_Hora.getText();
+						Time tempoT = null;
 
-				String siteOficial = txt_SiteOfi.getText();
-				if (siteOficial.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de site é obrigatório!");
-					return;
-				}
+						if (tempo.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Campo de tempo é obrigatório!");
+							return;
+						}
 
-				String email = txt_Email.getText();
-				if (email.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de email é obrigatório!");
-					return;
-				}
+						try {
+							LocalTime hora = LocalTime.parse(tempo, DateTimeFormatter.ofPattern("HH:mm"));
 
-				String endereco = txt_Endereco.getText();
-				if (endereco.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de endereco é obrigatório!");
-					return;
-				}
+							tempoT = Time.valueOf(hora);
+						} catch (DateTimeParseException e1) {
+							JOptionPane.showMessageDialog(null, "Formato de tempo inválido. Use o formato HH(0-23):mm(0-59).");
+							return;
+						}
 
-				String cidade = txt_Cidade.getText();
-				if (cidade.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de cidade é obrigatório!");
-					return;
-				}
+						String siteOficial = txt_SiteOfi.getText();
+						if (siteOficial.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de site é obrigatório!");
+							return;
+						}
 
-				String estado = txt_Estado.getText();
-				if (estado.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Campo de cidade é obrigatório!");
-					return;
-				}
+						String email = txt_Email.getText();
+						if (email.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Campo de email é obrigatório!");
+							return;
+						}
 
-				String avaliacaMedia = txt_AvaliaMedia.getText();
-				float AVF = (float) 0.0;
-				try {
-					float avaliacaMediaFloat = Float.parseFloat(avaliacaMedia);
-					if ((avaliacaMediaFloat > 0.9) && (avaliacaMediaFloat <5.1)) {
-						 AVF = avaliacaMediaFloat;
+						// Verifica o formato do e-mail usando uma expressão regular
+						String regex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$";
+						if (!email.matches(regex)) {
+							JOptionPane.showMessageDialog(null,
+									"Formato de email inválido. Insira um email válido!Exempo:3xempl0@email.com tudo deve estar em minusculo");
+							return;
+						}
 
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"Avaliação Inválido! Avaliação deve ser um número entre 1 e 5");
+						String endereco = txt_Endereco.getText();
+						if (endereco.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de endereco é obrigatório!");
+							return;
+						}
+
+						String cidade = txt_Cidade.getText();
+						if (cidade.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de cidade é obrigatório!");
+							return;
+						}
+						if (!cidade.matches("^[a-zA-Z]*$")) {
+							JOptionPane.showMessageDialog(null, "Campo de cidade deve conter apenas letras!");
+							return;
+						}
+
+						String estado = txt_Estado.getText();
+						if (estado.length() == 0) {
+							JOptionPane.showMessageDialog(null, "Campo de cidade é obrigatório!");
+							return;
+						}
+						if (!estado.matches("^[a-zA-Z]*$")) {
+							JOptionPane.showMessageDialog(null, "Campo de estado deve conter apenas letras!");
+							return;
+						}
+
+						String avaliacaoMedia = txt_AvaliaMedia.getText();
+						float avaliacaoFloat = 0.0f;
+
+						if (avaliacaoMedia.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Campo de avaliação é obrigatório!");
+							return;
+						}
+
+						try {
+							avaliacaoFloat = Float.parseFloat(avaliacaoMedia);
+
+							if (avaliacaoFloat < 1.0 || avaliacaoFloat > 5.0) {
+								JOptionPane.showMessageDialog(null,
+										"Avaliação inválida! A avaliação deve estar entre 1.0 e 5.0");
+								return;
+							}
+						} catch (NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,
+									"Avaliação inválida! Insira um número válido para a avaliação.");
+							return;
+						}
+
+						String precoIngresso = txt_PrecIngresso.getText();
+						Float precoIngressoFloat = (float) 0.0;
+						try {
+							precoIngressoFloat = Float.parseFloat(precoIngresso);
+						} catch (Exception ex) {
+							JOptionPane.showMessageDialog(null, "Preco do ingresso Inválido! Digite apenas números");
+							return;
+						}
+						String cep = txt_CEP.getText().replaceAll("[^0-9]", "");
+
+						if (cep.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Campo de CEP é obrigatório!");
+							return;
+						}
+
+						if (cep.length() != 8) {
+							JOptionPane.showMessageDialog(null, "Formato de CEP inválido! Insira 8 dígitos.");
+							return;
+						}
+
+						String telefone = txt_Telefone.getText().replaceAll("[^0-9]", "");
+
+						if (telefone.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Campo de telefone é obrigatório!");
+							return;
+						}
+
+						if (telefone.length() < 12 || telefone.length() > 13) {
+							JOptionPane.showMessageDialog(null, "Formato de telefone inválido! Insira entre 12 e 13 dígitos.");
+							return;
+						}
+
+						CategoriaEvento categoriaSelecionada = (CategoriaEvento) comboBoxCategorias.getSelectedItem();
+						Evento novoEvento = new Evento();
+						novoEvento.setNomeEvento(nomeEvento);
+						novoEvento.setLocalizacão(localizacão);
+						novoEvento.setData(DataForm);
+						novoEvento.setHora(tempoT);
+						novoEvento.setTelefoneContato(telefone);
+						novoEvento.setEmailContato(email);
+						novoEvento.setCEP(cep);
+						novoEvento.setPrecoIngresso(precoIngressoFloat);
+						novoEvento.setAvaliacãoMédia(avaliacaoFloat);
+						novoEvento.setCidade(cidade);
+						novoEvento.setEndereco(endereco);
+						novoEvento.setSiteOficial(siteOficial);
+						novoEvento.setDescricão(descricao);
+						novoEvento.setEstado(estado);
+						novoEvento.setCategoria(categoriaSelecionada);
+
+						listaEventos.add(novoEvento);
+						janela.atualizarJTableModel();
+						dispose();
+
 					}
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Avaliação Inválido! Avaliação deve ser um número entre 1 e 5");
-					return;
-				}
-
-				String precoIngresso = txt_PrecIngresso.getText();
-				Float precoIngressoFloat = (float) 0.0;
-				try {
-					precoIngressoFloat = Float.parseFloat(precoIngresso);
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Preco do ingresso Inválido! Digite apenas números");
-					return;
-				}
-				String cep = null;
-				try {
-					cep = txt_CEP.getText();
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "CEP Inválido! Digite apenas números");
-					return;
-				}
-				String telefone;
-				try {
-					telefone = txt_Telefone.getText();
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Telefone Inválido! Digite apenas números");
-					return;
-				}
-
-				CategoriaEvento categoriaSelecionada = (CategoriaEvento) comboBoxCategorias.getSelectedItem();
-				Evento novoEvento = new Evento();
-				novoEvento.setNomeEvento(nomeEvento);
-				novoEvento.setLocalização(localização);
-				novoEvento.setData(DataForm);
-				novoEvento.setHora(tempoT);
-				novoEvento.setTelefoneContato(telefone);
-				novoEvento.setEmailContato(email);
-				novoEvento.setCEP(cep);
-				novoEvento.setPreçoIngresso(precoIngressoFloat);
-				novoEvento.setAvaliaçãoMédia(AVF);
-				novoEvento.setCidade(cidade);
-				novoEvento.setEndereço(endereco);
-				novoEvento.setSiteOficial(siteOficial);
-				novoEvento.setDescrição(descricao);
-				novoEvento.setEstado(estado);
-				novoEvento.setCategoria(categoriaSelecionada);
-
-				listaEventos.add(novoEvento);
-				janela.atualizarJTableModel();
-
-			}
-		});
-
-		contentPane.add(btnNewButton_2, "cell 6 18,growx");
-		contentPane.add(btnNewButton, "cell 13 18,growx");
+				});
+				
+						contentPane.add(btnNewButton_2, "cell 4 18 3 1,growx");
+		contentPane.add(btnNewButton, "cell 8 18 7 1,growx");
 	}
 
 	private void carregarCategorias() {
